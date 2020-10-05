@@ -1,0 +1,11 @@
+      <div class="guest-sign">
+  	    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  	      <%= f.hidden_field :email, value: "test@example.com" %>
+  	      <%= f.hidden_field :password, value: "testtest" %>
+            <%= f.submit "かんたんログイン", class:"btn btn-warning" %>
+            <p class="text-muted responsive-font-xs">
+              ※ かんたんログインはポートフォリオ閲覧用です。<br>
+              メールアドレス等を入力せず閲覧いただけます。
+            </p>
+  	    <% end %>
+  	  </div>

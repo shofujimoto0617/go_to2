@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GoTo</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  </head>
+
+  <body>
+    <!--        ヘッダー        -->
+    <header class="nav navbar-fixed-to">
+      <div class="container">
+
+        <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
+          <div class="logo">
+            <!-- <img src="/assets/go_to.png" alt="ロゴ" width="60" height="60"> -->
+            <%= image_tag asset_path("go_to.png", alt: "ロゴ"), class: "header-log" %>
+          </div>
+          <span>Go to</span>
+          <ul class="navbar-nav ml-auto">
+            <% if user_signed_in? %>
+              <li><%= link_to ' My page', user_path(current_user), class: "nav-link" %></li>
+              <li><%= link_to ' Look', posts_path, class: "nav-link" %></li>
+              <li><%= link_to ' Write', new_post_path, class: "nav-link" %></li>
+              <li><%= link_to ' DM', rooms_path, class: "nav-link" %></li>
+              <li><%= link_to ' Log out', destroy_user_session_path, method: :delete, class: "nav-link" %></li>
+
+            <% else %>
+              <li><%= link_to ' Home', root_path, class: "nav-link" %></li>
+              <li><%= link_to ' Log in', new_user_session_path, class: "nav-link" %></li>
+              <li><%= link_to ' Sign up', new_user_registration_path, class: "nav-link" %></li>
+
+            <% end %>
+          </ul>
+        </nav>
+
+      </div>
+    </header>
+
+    <div class="body">
+
+      <div class="container">
+        <div class="col-10 offset-1 mt-5 flash">
+          <p id="notice"><%= notice %></p>
+        </div>
+
+        <%= yield %>
+
+      </div>
+
+    </div>
+  </body>
+</html>

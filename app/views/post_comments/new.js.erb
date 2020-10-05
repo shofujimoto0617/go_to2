@@ -1,0 +1,2 @@
+$("#post_comment-modal").html("<%= escape_javascript(render 'shared/comment', {post: @post,post_comment: @post_comment}) %>")
+$("#post_comment-modal").modal("show")

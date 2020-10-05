@@ -1,0 +1,7 @@
+            <% unless user == current_user %>
+                <% if current_user.following?(user) %>
+                    <%= link_to 'フォロー中', unfollow_path(user.id), method: :POST, remote: true, class: 'btn btn-primary' %>
+                <% else %>
+                    <%= link_to 'フォローする', follow_path(user.id), method: :POST, remote: true, class: 'btn btn-success' %>
+                <% end %>
+            <% end %>

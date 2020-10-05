@@ -1,0 +1,48 @@
+<div class="row">
+	<div class="col-md-10 offset-1">
+		<div class="heading">
+			<div class="heading-text">Direct Message</div>
+		</div>
+	</div>
+</div>
+
+<% if @another_entries.count > 0 %>
+<div class="row">
+	<div class="col-md-10 offset-1">
+		<table class="table DM">
+			<thead>
+				<tr>
+					<th>profile image</th>
+					<th>name(acount_name)</th>
+					<th>DM</th>
+				</tr>
+			</thead>
+			<tbody>
+			<% @another_entries.each do |another_entry| %>
+				<tr>
+					<td><%= attachment_image_tag another_entry.user, :image, format: 'jpeg', fallback: "noimg.jpg", size: "100x100", class: "rounded-circle" %></td>
+					<td>
+						<% if another_entry.user.account_name.present? %>
+						    <%= link_to "@#{another_entry.user.account_name}", user_path(another_entry.user) %>
+						<% else %>
+						    <%= link_to another_entry.user.user_name, user_path(another_entry.user) %>
+						<% end %>
+					</td>
+					<td>
+						<%= link_to room_path(another_entry.room) do %>
+						    <i class="far fa-envelope"></i>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>
+<% else %>
+<div class="row">
+    <div class="col-md-10 offset-1">
+   	    <p>DMをしているユーザーはいません</p>
+    </div>
+</div>
+<% end %>

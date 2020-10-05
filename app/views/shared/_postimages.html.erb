@@ -1,0 +1,20 @@
+            <% if post.post_images.count < (2) %>
+                <% post.post_images.each do |postimage| %>
+                <div class="box-main-one">
+                    <%= attachment_image_tag postimage, :image,
+                         class: "image_one" %>
+                </div>
+                <% end %>
+            <% elsif post.post_images.count < (3) %>
+                <% post.post_images.each do |postimage| %>
+                <div class="box-main">
+                    <%= attachment_image_tag postimage, :image,  class: "image_two" %>
+                </div>
+                <% end %>
+            <% else %>
+                <% post.post_images.each do |postimage| %>
+                <div class="box-main">
+                    <%= attachment_image_tag postimage, :image, class: "image_list" %>
+                </div>
+                <% end %>
+            <% end %>

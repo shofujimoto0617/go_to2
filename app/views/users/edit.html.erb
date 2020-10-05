@@ -1,0 +1,85 @@
+<div class="row">
+
+	<% if @user.errors.any? %>
+	    <div class="col-10 offset-1 mt-5 field_with_errors">
+            <div id="error_explanation">
+                <h3><%= pluralize(@user.errors.count, "error") %> Please try again:</h3>
+
+                <% @user.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+
+	<div class="col-10 offset-1">
+	    <div class="heading">
+		    <h1 class="heading-text">Change registration information</h1>
+		</div>
+	</div>
+
+</div>
+
+<div class="row mt-5">
+    <!-- userのimgae画像 -->
+	<div class="col-md-5">
+		<div class="user-img">
+			<%= attachment_image_tag @user, :image, format: 'jpeg', fallback: "noimg.jpg", size: "180x180", class: "rounded-circle center-block" %>
+		</div>
+	</div>
+
+	<%= form_for(@user, url: user_path, html: {method: :patch}) do |f| %>
+		<div class="user-info col-md-7">
+
+            <!-- 画像変更フィールド -->
+			<div class="form-group">
+				<%= f.attachment_field :image %>
+			</div>
+
+			<!-- 名前変更フィールド -->
+			<div class="form-group">
+				<%= f.label :user_name, "名前" %>
+				<%= f.text_field :user_name %>
+			</div>
+
+			<!-- ユーザーネーム変更フィールド -->
+			<div class="form-group">
+				<%= f.label :account_name, "ユーザーネーム" %>
+				<%= f.text_field :account_name %>
+			</div>
+
+			<!-- ウェブサイト変更フィールド -->
+			<div class="form-group">
+				<%= f.label :website, "ウェブサイト" %>
+				<%= f.text_field :website %>
+			</div>
+
+			<!-- 自己紹介変更フィールド -->
+			<div class="form-group">
+				<%= f.label :introduction, "自己紹介" %>
+				<%= f.text_area :introduction %>
+			</div>
+
+            <!-- 電話番号変更フィールド -->
+			<div class="form-group">
+				<%= f.label :phone_number, "電話番号(ハイフンなし)" %>
+				<%= f.text_field :phone_number %>
+			</div>
+
+            <!-- 性別変更フィールド -->
+			<div class="fadio-inline">
+				<%= f.label :sex, :男性 %>
+                <%= f.radio_button :sex, 0, checked: @man %>
+                <%= f.label :sex, :女性 %>
+                <%= f.radio_button :sex, 1, checked: @femalu %>
+			</div>
+
+			<!-- 送信ボタン -->
+			<div class="actions">
+		        <%= f.submit "完了", class: "btn btn-success" %>
+	        </div>
+
+		</div>
+	<% end %>
+
+</div>

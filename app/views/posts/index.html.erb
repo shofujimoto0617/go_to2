@@ -1,0 +1,121 @@
+<div class="row">
+	<div class="col-10 offset-1">
+		<div class="heading">
+			<h1 class="heading-text">Take a looking</h1>
+		</div>
+	</div>
+</div>
+
+<div class="row mt-5">
+    <strong class="favorite-rank col-md-12">R A N K I N G</strong>
+    <% @ranks.each.with_index(1) do |rank_post,i| %>
+        <div class="box col-md-4">
+            <div class="box-search">
+                <h5><%= i %>位</h5>
+                <i class="fas fa-crown" style="color: gold;"></i>  
+                <%= rank_post.favorites.count %>
+            </div>
+            <div class="box-top">
+                <%= attachment_image_tag rank_post.user, :image, format: 'jpeg', fallback: "noimg.jpg", size: "60x60", class: "rounded-circle" %><br>
+                <% if rank_post.user.account_name.present? %>
+                    <%= link_to "@#{rank_post.user.account_name}",user_path(rank_post.user) %>
+                <% else %>
+                    <%= link_to rank_post.user.user_name, user_path(rank_post.user) %>
+                <% end %>
+            </div>
+            <div class="box-text">
+                <strong><%= link_to rank_post.place, post_path(rank_post) %></strong>
+            </div>
+            <% if rank_post.post_images.count < (2) %>
+                <% rank_post.post_images.each do |postimage| %>
+                <div class="box-main-one">
+                    <div class="rank_image_one">
+                        <%= attachment_image_tag postimage, :image, class: "image_rank_one" %>
+                    </div>
+                </div>
+                <% end %>
+            <% elsif rank_post.post_images.count < (3) %>
+                <% rank_post.post_images.each do |postimage| %>
+                    <div class="box-main">
+                        <%= attachment_image_tag postimage, :image, class: "images_rank_two" %>
+                    </div>
+                <% end %>
+            <% else %>
+            <% rank_post.post_images.each do |postimage| %>
+            <div class="box-main">
+                <%= attachment_image_tag postimage, :image, class: "images_rank" %>
+            </div>
+            <% end %>
+        <% end %>
+        </div>
+    <% end %>
+    <div class="col-md-8">
+    <% @posts.each do |post| %>
+        <div class="box">
+            <div class="box-top">
+                <%= attachment_image_tag post.user, :image, format: 'jpeg', fallback: "noimg.jpg", size: "100x100", class: "rounded-circle" %><br>
+
+                <% if post.user.account_name.present? %>
+		            <%= link_to "@#{post.user.account_name}", user_path(post.user) %>
+		        <% else %>
+		            <%= link_to post.user.user_name, user_path(post.user) %>
+		        <% end %>
+            </div>
+
+            <div class="box-text">
+                <%= render 'shared/image_country', {post: post} %>
+                <h2><strong><%= link_to post.place, post_path(post.id) %></strong></h2>
+                <p><%= post.body %></p>
+                <p class="datatime"><%= post.created_at.strftime('%Y/%m/%d %H:%M') %></p>
+                <% post.tags.each do |tag| %>
+                    <%= link_to "# #{tag.tag_name}", posts_path(tag_search: tag.id) %>
+                <% end %>
+            </div>
+
+            <%= render 'shared/postimages', {post: post} %>
+
+            <div class="box-footer">
+                <div id="post_comment-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+                <%= link_to new_post_post_comment_path(post.id), remote: true do %>
+                    <i class="far fa-comment-alt"></i>
+		            <%= post.post_comments.count %>
+                <% end %>
+                <label id="favorite-<%= post.id %>">
+		        	<%= render 'shared/favorite', {post: post} %>
+		        </label>
+            </div>
+
+        </div>
+    <% end %>
+    </div>
+
+
+    <div class="col-md-4">
+        <div class="box">
+            <h5 class="box-search">
+                <strong>Place Search</strong>
+            </h5>
+            <div class="search">
+                <%= form_tag(posts_path, method: :get) do %>
+                    <%= text_field_tag(:post_search) %><%= submit_tag "検索", class: "search-btn" %>
+                <% end %>
+            </div>
+        </div>
+
+    	<div class="box">
+    		<h5 class="box-search">
+                <strong>Tag Search</strong>
+            </h5>
+    	    <div class="search">
+    	    	<%= form_tag(posts_path, method: :get) do %>
+		            <%= text_field_tag(:search) %><%= submit_tag "検索", class: "search-btn" %>
+		        <% end %>
+		    </div>
+		    <div class="search-footer">
+		    	<% @tags.each do |tag| %>
+		            <%= link_to "# #{tag.tag_name} (#{tag.posts.count}) ", posts_path(tag_search: tag.id) %>
+		        <% end %>
+		    </div>
+	    </div>
+    </div>
+</div>

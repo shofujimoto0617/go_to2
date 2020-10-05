@@ -1,0 +1,23 @@
+            <div class="box-footer">
+
+                <div id="post_comment-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+                <%= link_to new_post_post_comment_path(post.id), remote: true do %>
+                    <i class="far fa-comment-alt"></i>
+                    <%= post.post_comments.count %>
+                <% end %>
+
+                <label id="favorite-<%= post.id %>">
+                    <%= render 'shared/favorite', {post: post} %>
+                </label>
+
+                <% if current_user.id == post.user.id %>
+                    <%= link_to edit_post_path(post.id) do %>
+                        <i class="fas fa-cog"></i>
+                    <% end %>
+
+                    <%= link_to post_path(post.id), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"} do %>
+                        <i class="fas fa-trash-alt"></i>
+                    <% end %>
+                <% end %>
+
+            </div>

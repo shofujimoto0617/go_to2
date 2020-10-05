@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    attributes:
+      post:
+        country: 国内/海外
+        place: Place/行先
+        finish_date: 最終日
+      user:
+        user_name: 名前

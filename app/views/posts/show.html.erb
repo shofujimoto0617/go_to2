@@ -1,0 +1,97 @@
+<div class="row">
+	<div class="col-12">
+		<div class="heading">
+			<h1 class="heading-text">
+                <% if current_user == @post.user %>
+                    My post
+                <% elsif @post.user.account_name.present? %>
+                    Write by <%= "@#{@post.user.account_name}" %>
+                <% else %>
+                    Write by <%= @post.user.user_name %>
+                <% end %>
+            </h1>
+		</div>
+	</div>
+</div>
+
+<div class="box">
+	<div class="row">
+
+        <div class="col-md-4 left-box">
+
+            <div class="post-user">
+                <%= attachment_image_tag @post.user, :image, format: 'jpeg', fallback: "noimg.jpg", size: "100x100", class: "rounded-circle" %><br>
+
+                <% if @post.user.account_name.present? %>
+                    <%= link_to "@#{@post.user.account_name}", user_path(@post.user) %>
+                <% else %>
+                    <%= link_to @post.user.user_name, user_path(@post.user) %>
+                <% end %>
+            </div>
+
+            <div class="day">
+                <h3>Went to the day/日程</h3>
+                <% if @post.start_date.present? && @post.finish_date.present? %>
+                    <p><%= @post.start_date.strftime('%Y/%m/%d') %> ~ <%= @post.finish_date.strftime('%Y/%m/%d') %></p>
+                <% end %>
+                </p>
+            </div>
+
+            <div class="price">
+                <h3>Price/費用</h3>
+                <% if @post.price %>
+                    <p><%= @post.price.to_s(:delimited) %>円</p>
+                <% end %>
+            </div>
+
+        </div>
+
+        <div class="col-md-8 right-box">
+            <div class="country-name">
+                <%= render 'shared/image_country', {post: @post} %>
+            </div>
+
+            <div class="box-text">
+                <h2><strong><%= link_to @post.place, post_path(@post.id) %></strong></h2>
+                <p><%= @post.body %></p>
+            </div>
+
+            <%= render 'shared/postimages', {post: @post} %>
+
+
+            <%= render 'shared/box_footer', {post: @post} %>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-10 offset-2">
+
+		<table class="table table-borderless">
+			<!-- postに対してのコメント一覧 -->
+			<% @post_comments.each do |post_comment| %>
+			    <tr>
+			    	<th>
+			    		<%= attachment_image_tag post_comment.user, :image, format: 'jpeg', fallback: "noimg.jpg", size: "80x80", class: "rounded-circle" %><br>
+                        <% if post_comment.user.account_name.present? %>
+			    		    <%= "@#{post_comment.user.account_name}" %>
+                        <% else %>
+                            <%= post_comment.user.user_name %>
+                        <% end %>
+			    	</th>
+			    	<td>
+			    		<%= post_comment.comment %>
+			    		<% if current_user == post_comment.user %>
+			    		    <%= link_to post_post_comment_path(@post,post_comment), method: :delete, data: {confirm: "コメントを削除しますか？"} do %>
+		                        <i class="fas fa-trash-alt"></i>
+		                    <% end %>
+			    		<% end %>
+			    	</td>
+			    </tr>
+		    <% end %>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,143 @@
+<div class="row">
+    <div class="col-md-12">
+    	<div class="heading">
+            <h1 class="heading-text">
+                <!-- ログインユーザのページかどうか分岐 -->
+                <% if current_user == @user %>
+                    My page
+                <% else %>
+                    <% if @user.account_name.present? %>
+                        <%= "@#{@user.account_name}" %> page
+                    <% else %>
+                        <%= @user.user_name %> page
+                    <% end %>
+                <% end %>
+            </h1>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mt-5">
+    <div class="col-md-5">
+
+        <div class="user-img">
+            <%= attachment_image_tag @user, :image, format: 'jpeg', fallback: "noimg.jpg", size: "200x200", class: "rounded-circle" %>
+        </div>
+
+        <table class="table table-borderless follow">
+            <tbody>
+                <tr>
+                    <th>follows</th>
+                    <th><%= link_to @user.follower.count, following_user_path(@user.id) %></th>
+                </tr>
+                <tr>
+                    <th>followers</th>
+                    <th><%= link_to @user.followed.count, followers_user_path(@user.id) %></th>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="sub-btn">
+            <div id="relationship">
+                <%= render 'shared/relationship', {user: @user} %>
+            </div>
+
+            <% if @user == current_user %>
+                <%= link_to 'プロフィール変更', edit_user_path(@user.id), class: " button_custom btn btn-success" %><br>
+            <% end %>
+
+            <% if @user.id == current_user.id %>
+                <%= link_to rooms_path do %>
+                    <i class="far fa-envelope"></i>
+                <% end %>
+            <% end %>
+
+            <% unless @user.id == current_user.id %>
+                <% if @is_room == true %>
+                    <%= link_to room_path(@room_id) do %>
+                        <i class="far fa-envelope"></i>
+                    <% end %>
+                <% else %>
+                    <%= form_for(@room, url: rooms_path, html: {method: :post}) do |f| %>
+                        <%= fields_for @entry do |entry| %>
+                            <%= entry.hidden_field :user_id, value: @user.id %>
+                        <% end %>
+                        <%= f.button :type => "submit", style: 'border-style: none;' do %>
+                            <i class="far fa-envelope"></i>
+                        <% end %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        </div>
+
+    </div>
+
+    <div class="col-md-7">
+        <table class="table table-borderless info">
+            <tbody>
+
+                <tr>
+                    <th>User name</th>
+                    <td><%= @user.user_name %></td>
+                </tr>
+
+                <tr>
+                    <th>Account name</th>
+                    <td>
+                        <% if @user.account_name.present? %>
+                            <%= "@#{@user.account_name}" %>
+                        <% end %>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Introduction</th>
+                    <td><%= @user.introduction %></td>
+                </tr>
+
+                <tr>
+                    <th>Website</th>
+                    <td>
+                        <% unless @user.website.nil? %>
+                            <%= link_to @user.website, @user.website %>
+                        <% end %>
+                    </td>
+                </tr>
+
+                <% if current_user == @user %>
+
+                    <tr>
+                        <th>Tel</th>
+                        <td><%= @user.phone_number %></td>
+                    </tr>
+
+                    <tr>
+                        <th>Gender</th>
+                        <td><%= @user.sex %></td>
+                    </tr>
+
+                    <tr>
+                        <th>Mail address</th>
+                        <td><%= @user.email %></td>
+                    </tr>
+
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><%= link_to '全て', country_path(@user.id, country: "all"), method: :get, remote: true, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to '国内', country_path(@user.id, country: 0), method: :get, remote: true, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to '海外', country_path(@user.id, country: 1), method: :get, remote: true, class: "nav-link" %></li>
+        </ul>
+    </div>
+</div>
+<!-- coutry別　非同期 -->
+<div class="row" id="country-<%= @user.id %>">
+    <%= render 'shared/country', {user: @user} %>
+</div>

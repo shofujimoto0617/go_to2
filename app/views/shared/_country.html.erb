@@ -1,0 +1,45 @@
+    <% @posts.each do |post| %>
+
+        <div class="col-md-4 left-box mt-5">
+
+            <div class="country-name">
+                <% if post.country == "国内" %>
+                    <%= image_tag asset_path("japan.png", alt: "国内"), class: "japan-image" %>
+                <% else %>
+                    <%= image_tag asset_path("world.png", alt: "国内"), class: "world-image" %>
+                <% end %>
+            </div>
+
+            <div class="day">
+                <h3>Went to the day/日程</h3>
+                <% if post.start_date.present? && post.finish_date.present? %>
+                    <p><%= post.start_date.strftime('%Y/%m/%d') %> ~ <%= post.finish_date.strftime('%Y/%m/%d') %></p>
+                <% end %>
+                </p>
+            </div>
+
+            <div class="price">
+                <h3>Price/費用</h3>
+                <% if post.price %>
+                    <p><%= post.price.to_s(:delimited) %>円</p>
+                <% end %>
+            </div>
+
+        </div>
+
+        <div class="col-md-8 right-box mt-5">
+
+            <div class="box-text">
+                <h2><strong><%= link_to post.place, post_path(post.id) %></strong></h2>
+                <p class="mt-3"><%= post.body %></p>
+                <p class="datatime"><%= post.created_at.strftime('%Y/%m/%d %H:%M') %></p>
+            </div>
+
+            <%= render 'shared/postimages', {post: post} %>
+
+
+            <%= render 'shared/box_footer', {post: post} %>
+
+        </div>
+
+    <% end %>

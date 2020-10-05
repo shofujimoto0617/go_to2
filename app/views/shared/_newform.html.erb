@@ -1,0 +1,57 @@
+	<div class="col-10 offset-1">
+		<div class="heading">
+		    <h1 class="heading-text">Take write memories</h1>
+		</div>
+	</div>
+
+    <div class="col-6 offset-3 mt-5">
+		<div class="group_field">
+		<%= form_for(post, url: posts_path, html: {method: :post}) do |f| %>
+		    <!-- country選択フォーム -->
+		    <div class="field">
+		    	<%= f.label :country, "国内or海外" %><br>
+		    	<%= select :post, :country, Post.countries.keys.to_a, include_blank: "選択してください" %>
+		    </div>
+
+		    <div class="field">
+		    	<%= f.label :tag, "Tag/タグ" %>
+		    	<%= f.text_field :tag_ids, class: "form-control", id:'tag_ids', placeholder: "※ 複数タグをつけるには ' , ' で区切ってください。" %>
+		    </div>
+
+		    <!-- placeフォーム -->
+		    <div class="field">
+		    	<%= f.label :place, "Place/行先" %><br>
+		    	<%= f.text_field :place, class: "form-control" %>
+		    </div>
+
+		    <!-- bodyフォーム -->
+		    <div class="field">
+		    	<%= f.label :body, "Review/レビュー" %><br>
+		    	<%= f.text_area :body, class: "form-control", :size=>"60x10" %>
+		    </div>
+
+		    <!-- dayフォーム -->
+		    <div class="field">
+		    	<label>Day/日程</label><br>
+		    	<%= f.date_field :start_date %> ~
+		    	<%= f.date_field :finish_date %>
+		    </div>
+
+		    <!-- priceフォーム -->
+		    <div class="field">
+		    	<%= f.label :price, "Price/費用" %><br>
+		    	<%= f.text_field :price, placeholder: "※ 半角英数字' , 'なし" %> 円
+		    </div>
+
+		    <!-- 画像投稿フォーム -->
+		    <div class="field">
+		    	<%= f.label :post_image, "Picture/思い出の写真" %><br>
+		    	<%= f.file_field :post_images_images, multiple: true %>
+		    </div>
+
+		    <div class="actions">
+		    	<%= f.submit "完了",class: "btn btn-success" %>
+		    </div>
+		<% end %>
+	    </div>
+	</div>

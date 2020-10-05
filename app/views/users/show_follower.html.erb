@@ -1,0 +1,18 @@
+<div class="row">
+	<div class="col-10 offset-1">
+		<div class="heading">
+			<h1 class="heading-text">Follower Users</h1>
+		</div>
+	</div>
+</div>
+
+
+<% if @users.count > 0 %>
+    <%= render '/shared/follow', users: @users %>
+<% else %>
+    <div class="row">
+        <div class="col-md-10 offset-1">
+    	    <p>フォローされているユーザーはいません</p>
+        </div>
+    </div>
+<% end %>

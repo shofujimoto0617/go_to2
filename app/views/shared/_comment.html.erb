@@ -1,0 +1,9 @@
+<!-- モーダルで表示するフォーム -->
+<div class="modal-dialog">
+	<div class="modal-content">
+		<%= form_for(post_comment,url: post_post_comments_path(post.id), remote: true) do |f| %>
+			<%= f.text_area :comment, size: "100x5" %>
+		    <%= f.submit '送信', class: 'btn-sm btn-primary' %>
+		<% end %>
+	</div>
+</div>

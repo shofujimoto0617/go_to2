@@ -1,0 +1,5 @@
+                <% if post.country == "国内" %>
+                    <%= image_tag asset_path("japan.png", alt: "国内 "), class: "japan-image"  %>
+                <% else %>
+                    <%= image_tag asset_path("world.png", alt: "国内"), class: "world-image" %>
+                <% end %>

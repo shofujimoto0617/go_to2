@@ -1,0 +1,17 @@
+
+	<div class="col-md-10 offset-1">
+		<% room.direct_messages.each do |dm| %>
+
+		    <% if dm.user_id == current_user.id %>
+	    	    <div class="current-dm col-4 offset-8">
+	    		    <%= dm.message %>
+		   	    </div>
+		   	<% else %>
+		   	    <div class="another-dm col-4 offser-1">
+	    		    <%= dm.message %>
+		   	    </div>
+		   	<% end %>
+
+	    <% end %>
+	</div>
+

@@ -1,0 +1,16 @@
+<div class="row">
+
+	<% if @post.errors.any? %>
+        <div class="col-10 offset-1 mt-5 field_with_errors">
+            <div id="error_explanation">
+                <h3><%= pluralize(@post.errors.count, "error") %> prohibited this obj from being saved:</h3>
+
+                <% @post.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+
+	<%= render 'shared/newform', post: @post %>
+</div>

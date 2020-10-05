@@ -1,0 +1,30 @@
+<div class="row">
+	<div class="col-md-10 offset-1">
+		<div class="heading">
+			<div class="heading-text">
+				<%= attachment_image_tag @another_user, :image, format: 'jpeg', fallback: "noimg.jpg", size: "200x200", class: "rounded-circle" %><br>
+				<% if @another_user.account_name.present? %>
+		            <%= link_to "@#{@another_user.account_name}", user_path(@another_user.id) %>
+		        <% else %>
+		            <%= link_to @another_user.user_name, user_path(@another_user.id) %>
+		        <% end %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row" id="message">
+    <%= render 'shared/message', {room: @room} %>
+</div>
+
+<div class="row room">
+	<div class="col-md-6 offset-4 dm-form">
+		<%= form_for(@direct_message, url: direct_messages_path, html: {method: :post}, remote: true) do |f| %>
+		    <%= f.text_field :message, size: "20x10" %>
+		    <%= f.hidden_field :room_id, value: @room.id %>
+		    <%= f.button :type => "submit", style: 'border-style: none;' do %>
+                <i class="far fa-paper-plane"></i>
+            <% end %>
+		<% end %>
+	</div>
+</div>
