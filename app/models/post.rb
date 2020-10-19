@@ -26,6 +26,8 @@ class Post < ApplicationRecord
   	海外: 1
   }
 
+  scope :recent, -> { order(created_at: :desc) }
+
   # validate false条件
   def start_end_check
     return true if start_date.blank? || finish_date.blank?
