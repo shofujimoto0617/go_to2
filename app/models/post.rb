@@ -26,6 +26,7 @@ class Post < ApplicationRecord
   	海外: 1
   }
 
+  # 投稿内容を最新順に表示（降順）
   scope :recent, -> { order(created_at: :desc) }
 
   # validate false条件
@@ -57,6 +58,7 @@ class Post < ApplicationRecord
     end
   end
 
+  # post検索
   def self.post_search(post_search)
     if post_search
       @posts = Post.where("place LIKE?","%#{post_search}%")
