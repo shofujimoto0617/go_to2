@@ -19,22 +19,22 @@ class PostsController < ApplicationController
 
       if params[:tag_search]
         tag = Tag.find(params[:tag_search])
-        @posts = tag.posts.recent
+        @posts = tag.posts.recent.page(params[:page]).per(10)
       else
-    	  @posts = Post.all.recent
+    	  @posts = Post.all.recent.page(params[:page]).per(10)
       end
     # post検索
     elsif params[:post_search]
 
       post_search = params[:post_search]
       if !post_search
-        @posts = Post.all.recent
+        @posts = Post.all.recent.page(params[:page]).per(10)
       else
-        @posts = Post.post_search(post_search)
+        @posts = Post.post_search(post_search).page(params[:page]).per(10)
       end
     # 検索ではない場合
     else
-      @posts = Post.all.recent
+      @posts = Post.all.recent.page(params[:page]).per(10)
 
     end
     #いいね数の上位３つのpost
