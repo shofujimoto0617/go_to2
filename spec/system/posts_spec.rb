@@ -22,30 +22,31 @@ describe 'post機能', type: :system do
 			it { expect(page).to have_content '行先' }
 			it { expect(page).to have_content 'レビュー' }
 	    end
+	    describe '一覧画面のテスト' do
+	    	context '表示の確認' do
+	    		let(:login_user) { user_a }
 
-	    describe '一覧表示機能' do
-			context 'ユーザーAがログインしているとき' do
-				let(:login_user) { user_a }
+	    		before do
+	    			visit posts_path
+	    		end
 
-				before do
-					visit posts_path
-				end
+	    		it 'Take a lookingと表示される' do
+	    		    expect(page).to have_content 'Take a looking'
+	    		end
 
-				it_behaves_like 'ユーザーAが作成したpostが表示される'
-			end
+	    		it '自分と他人の名前のリンク先が正しい' do
+	    			expect(page).to have_link post_a.user.user_name, href: user_path(post_a.user)
+	    			expect(page).to have_link post_b.user.user_name, href: user_path(post_b.user)
+	    		end
+	    		it '自分と他人のplaceのリンク先が正しい' do
+	    			expect(page).to have_link post_a.place, href: post_path(post_a)
+	    			expect(page).to have_link post_b.place, href: post_path(post_b)
+	    		end
+	    		it_behaves_like 'ユーザーAが作成したpostが表示される'
+	    	end
+	    end
 
-			context 'ユーザーBがログインしているとき' do
-				let(:login_user) { user_b }
-
-				before do
-					visit posts_path
-				end
-
-				it_behaves_like 'ユーザーAが作成したpostが表示される'
-			end
-		end
-
-		describe '詳細画面機能' do
+		describe '詳細画面のテスト' do
 			context '自分の詳細画面へ遷移' do
 				let(:login_user) { user_a }
 
@@ -84,7 +85,7 @@ describe 'post機能', type: :system do
 			end
 		end
 
-		describe '新規投稿機能' do
+		describe '投稿のテスト' do
 			context '表示の確認' do
 				let(:login_user) { user_a }
 
