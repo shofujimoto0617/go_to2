@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-describe 'post機能', type: :system do
-	describe '一覧機能' do
+describe 'postのテスト', type: :system do
+	describe '機能テスト' do
 		let(:user_a) { FactoryBot.create(:user, user_name: 'ユーザーA', email: 'a@expect.com') }
 		let(:user_b) { FactoryBot.create(:user, user_name: 'ユーザーB', email: 'b@expect.com') }
 		let!(:post_a) { FactoryBot.create(:post, country: '国内', place: '行先', body: 'レビュー', price: '10000', start_date: '2020-01-01', finish_date: '2020-01-10', user: user_a ) }
-		let!(:post_b) { FactoryBot.create(:post, place: '行先', user: user_b ) }
 		let!(:post_b) { FactoryBot.create(:post, country: '海外', place: '行先', body: 'レビュー', price: '10000', start_date: '2020-02-01', finish_date: '2020-02-10', user: user_b ) }
 
 
